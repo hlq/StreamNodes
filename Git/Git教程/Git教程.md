@@ -13,7 +13,7 @@ $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 ```
 ## 工作区和暂存区
-```
+```bash
 $ mkdir project
 $ cd project
 $ git init
@@ -27,50 +27,50 @@ $ git init
 
 ## 文件操作
 - 新增文件
-```
+```bash
 git add readme.md
 ```      
 - 提交
-```
+```bash
 git commit -m 'first commit'
 ```
 - 查看状态(修改文件后，此命令可以查看)
-```
+```bash
 git status
 ```
 - 对比文件（对比修改前后）
-```
+```bash
 git diff readme.txt
 ```
 - 查看commit提交记录
-```
+```bash
 git log
 # 简明
 git log --pretty=oneline 
 git log --pretty=oneline --abbrev-commit
 ```
 - 版本回退
-```
+```bash
 # 回退到上一个版本
 git reset --hard HEAD^
 # 回退或前进到指定版本
 git reset --hard xxxxxxx...
 ```
 - 查看head曾经的指向历史
-```
+```bash
 git reflog
 ```
 - 丢弃工作区修改
-```
+```bash
 git checkout -- readme.md
 ```
 - 删除文件
-```
+```bash
 git rm test.txt
 ```
 ## 远程仓库
 - 初始化
-```
+```bash
 echo "# StreamNodes" >> README.md
 git init
 git add README.md
@@ -79,7 +79,7 @@ git remote add origin https://github.com/hlq/StreamNodes.git
 git push -u origin master
 ```
 - 克隆
-```
+```bash
 # https
 git clone https://github.com/hlq/StreamNodes.git
 # ssh
@@ -87,36 +87,38 @@ git clone git@github.com:hlq/StreamNode.git
 ```
 ## 分支
 - 查看
-```
+```bash
 # 本地
 git branch
 # 所有
 git branch -a
 ```
 - 创建
-```
+```bash
 # 创建分支
 git branch branch_01
 # 创建并切换一个新分支
 git checkout -b branch_01
 ```
 - 切换
-```
+```bash
 git checkout branch_01
 ```
 - 合并
-```
+```bash
 # 将分支branch_01合并到当前分支
 git merge branch_01
 ```
+
 > 合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息。如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息
-```
+
+```bash
 git merge --no-ff -m 'merge with no-ff' dev
 ```
-- 分支历史
-```
-git log --graph --pretty=oneline --abbrev-commit
 
+- 分支历史
+```bash
+git log --graph --pretty=oneline --abbrev-commit
 *   1ef11f9 merge with no-ff
 |\
 | * c829eeb t1
@@ -126,14 +128,14 @@ git log --graph --pretty=oneline --abbrev-commit
 
 
 - 删除
-```
+```bash
 # 合并后可以删除
 git branch -d branch_01
 # 不合并强制删除
 git branch -D branch_01
 ```
 - 提交远程
-```
+```bash
 git push origin dev
 ```
 
@@ -158,13 +160,13 @@ git push origin dev
 > 幸好，Git还提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：
 
 - 保存现场
-```
+```bash
 git stash
 ```
 
 - 恢复现场
 
-```
+```bash
 # 查看该分支所有现场
 git stash list
 
@@ -184,12 +186,12 @@ git stash pop stash@{0}
 
 Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。
 - 查看
-```
+```bash
 git tag
 ```
 
 - 创建
-```
+```bash
 # 默认标签是打在最新提交的commit
 git tag v1.0
 
@@ -209,14 +211,14 @@ git tag -a v0.1 -m "version 0.1 released" 3628164
 $ git tag -s v0.1 -m "signed version 0.1 released" 3628164
 ```
 - 删除
-```
+```bash
 #本地
 git tag -d v0.1
 #远程
 git push origin :refs/tags/v1.0
 ```
 - 远程推送
-```
+```bash
 #指定推送
 git push origin v1.0
 #推送所有
