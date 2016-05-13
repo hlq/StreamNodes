@@ -12,6 +12,16 @@ $ sudo apt-get install oracle-java8-installer
 ```bash
 echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 ```
+查看 java 安装路径：
+```bash
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+```
+
+查看所有 jdk 安装版本：
+```bash
+sudo update-java-alternatives -l
+```
 设置 Java 8 环境变量：
 ```bash
 sudo apt-get install oracle-java8-set-default
@@ -26,3 +36,24 @@ sudo update-java-alternatives -s java-7-oracle
 sudo update-java-alternatives -s java-8-oracle
 ```
 
+**验证码无法显示：Could not initialize class sun.awt.X1 解决方案**
+在catalina.sh里加上一句
+> -Djava.awt.headless=true \
+
+
+修改后内容如下：
+```bash
+    exec "$_RUNJAVA" $JAVA_OPTS $CATALINA_OPTS \
+      -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
+      -Dcatalina.base="$CATALINA_BASE" \
+      -Dcatalina.home="$CATALINA_HOME" \
+      -Djava.io.tmpdir="$CATALINA_TMPDIR" \
+      -Djava.awt.headless=true \
+```
+以tomcat8为例，总共有八处这样的地方，修改好后即可。
+
+解决生成图片问题
+```bash
+apt-get install libxrender-dev 
+apt-get install libxtst-dev
+```

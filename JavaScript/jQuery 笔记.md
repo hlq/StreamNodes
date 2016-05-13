@@ -27,4 +27,7 @@ $("input[id][name$='keleyi']")
 ```js
 $(this).children().length
 ```
-
+- checkbox 选中
+```js
+$(".xxx:checked")
+```
