@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- saved from url=(0062)http://zachofalltrades.github.io/jquery.format/demo/index.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>jQuery Format</title>
+
+<link href="jquery-ui.css" rel="stylesheet" type="text/css"><!-- 1.10.2 -->
+<script src="jquery.min.js"></script><!-- 1.9.1 -->
+<script src="jquery-ui.min.js"></script><!-- 1.10.2 -->
+<script src="jquery.format.js"></script>
+<script>
+$(function() {
+    $('#tabs').tabs();
+
+    $('#xml').button().click(function() {
+        $('#xml_text').format({method: 'xml'});
+    });
+    $('#xmlmin').button().click(function() {
+        $('#xml_text').format({method: 'xmlmin'});
+    });
+    $('#xml_load').button().click(function() {
+        getSample('xml', '#xml_text');
+    });
+
+    $('#css').button().click(function() {
+        $('#css_text').format({method: 'css'});
+    });
+    $('#cssmin').button().click(function() {
+        $('#css_text').format({method: 'cssmin'});
+    });
+    $('#css_load').button().click(function() {
+        getSample('css', '#css_text');
+    });
+
+    $('#sql').button().click(function() {
+        $('#sql_text').format({method: 'sql'});
+    });
+    $('#sqlmin').button().click(function() {
+        $('#sql_text').format({method: 'sqlmin'});
+    });
+    $('#sql_load').button().click(function() {
+        getSample('sql', '#sql_text');
+    });
+
+    $('#json').button().click(function() {
+        $('#json_text').format({method: 'json'});
+    });
+    $('#jsonmin').button().click(function() {
+        $('#json_text').format({method: 'jsonmin'});
+    });
+    $('#json_load').button().click(function() {
+        getSample('json', '#json_text');
+    });
+
+	function getSample(extn, id) {
+		$.ajax( {
+			url: 'sample.' + extn,
+			type: 'GET',
+			dataType: 'text',
+			dataFilter: function(data, type) {
+				// console.log(type);
+				// console.log(data);
+			},
+			complete: function(xhr, status) {
+				// console.log(status);
+				// console.log(xhr);
+				$(id).val(xhr.responseText);
+			}
+		});
+	}
+
+
+});
+</script>
+</head>
+<body>
+
+<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist">
+        <li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active" role="tab" tabindex="0" aria-controls="tabs-1" aria-labelledby="ui-id-1" aria-selected="true"><a href="index.html#tabs-1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-1">XML</a></li>
+        <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-2" aria-labelledby="ui-id-2" aria-selected="false"><a href="index.html#tabs-2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-2">CSS</a></li>
+        <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-3" aria-labelledby="ui-id-3" aria-selected="false"><a href="index.html#tabs-3" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-3">SQL</a></li>
+        <li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tabs-4" aria-labelledby="ui-id-4" aria-selected="false"><a href="index.html#tabs-4" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-4">JSON</a></li>
+    </ul>
+    <div id="tabs-1" aria-labelledby="ui-id-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="true" aria-hidden="false" style="display: block;">
+        <textarea id="xml_text" rows="20" cols="60"></textarea>
+        <br>
+        <button id="xml" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Pretty Print</span></button>
+        <button id="xmlmin" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Minimize</span></button>
+        <!-- button id="xml_load" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Load Sample</span></button -->
+    </div>
+    <div id="tabs-2" aria-labelledby="ui-id-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+        <textarea id="css_text" rows="20" cols="60"></textarea>
+        <br>
+        <button id="css" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Pretty Print</span></button>
+        <button id="cssmin" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Minimize</span></button>
+        <!--button id="css_load" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Load Sample</span></button-->
+    </div>
+    <div id="tabs-3" aria-labelledby="ui-id-3" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+        <textarea id="sql_text" rows="20" cols="60"></textarea>
+        <br>
+        <button id="sql" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Pretty Print</span></button>
+        <button id="sqlmin" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Minimize</span></button>
+        <!--button id="sql_load" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Load Sample</span></button-->
+    </div>
+    <div id="tabs-4" aria-labelledby="ui-id-4" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+        <textarea id="json_text" rows="20" cols="60"></textarea>
+        <br>
+        <button id="json" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Pretty Print</span></button>
+        <button id="jsonmin" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Minimize</span></button>
+        <!--button id="json_load" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Load Sample</span></button-->
+    </div>
+</div>
+
+</body></html>

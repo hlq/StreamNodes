@@ -1,0 +1,285 @@
+<!--EJB发布描述器的根元素,它包含一个可选的EJB-JAR文件的描述,可选显示的名称,可选小图标的文件名,
+    可选的大图标的文件名,必须的所有被包含的enterprise bean 的结构信息 ,
+    可选的应用装配描述器,可选的针对当前ejb-jar文件的ejb-client-jar 文件的名称 -->
+<ejb-jar>
+    <description>A short description</description><!--ejb-jar 文件的描述性的说明    -->
+    <display-name>A name</display-name><!--ejb-jar 文件显示的名称 -->
+    <!--small-icon 元素包含小图标(16 x 16)的名字,这个名称是在ejb-jar文件的相对路经,
+        文件必须是jpg或者是gif格式,文件名必须以.jpg.或者gif为后缀,图标可以被工具使用-->
+    <small-icon>employee-service-icon16x16.jpg</small-icon>
+    <!--large-icon元素包含小图标(32 x 32)的名字,这个名称是在ejb-jar文件的相对路经,
+    文件必须是jpg或者是gif格式,文件名必须以.jpg.或者gif为后缀,图标可以被工具使用  -->
+    <large-icon>employee-service-icon32x32.jpg</large-icon>
+    <enterprise-beans><!--enterprise-beans元素包含了多个enterprise beans的声明描述  -->
+        <!--Session元素声明了一个session bean.声明由以下这些组成:一个可选的描述符,可选的显示名称;
+        可选的小图标文件名,可选的大图标文件名,在发布描述符中分配给这个企业bean的名字,
+        当前sessionBean的home及remote接口的名称,
+        sessionBean的实现类的名,sessionBean的状态管理类型,sessionBean的事务类型,
+        一个可选的bean的环境条目,一个可选的引用的EJB的声明,一个可选的安全角色的引用声明,
+        一个可选的资源工厂的引用声明,那些称为可选的元素当它们描述的内容为空时,可以将它们省略掉的  -->
+        <session>
+            <description>A short description</description>
+            <display-name>A name</display-name><!--要显示的名称,这个名字可以被别的工具引用到 -->
+            <small-icon>employee-service-icon16x16.jpg</small-icon>
+            <large-icon>employee-service-icon32x32.jpg</large-icon>
+            <!-- ejb-name元素指明了企业bean的名称,它是由ejb-jar 文件的编写者命名的,这个名称在同一个ejb-jar文件中必须是唯一的,
+            企业bean的代码不依赖于它,与它隔离的,所以企业bean的名称可以在应用装配的过程中改变而不会影响企业bean的功能.
+            在发布描述器中的ejb-name与应用发布者即将分配给企业bean的home接口的JNDI的名称没有结构性的关系.名称必须定义的有意义  -->
+            <ejb-name>EmployeeService</ejb-name>
+            <home>com.aardvark.payroll.PayrollHome</home><!-- home元素包含企业bean的具有完全的路经(具有完整的包名)的home接口  -->
+            <remote>com.wombat.empl.EmployeeService</remote><!--remote元素包含企业bean的具有完全的路经(具有完整的包名)的remote接口  -->
+            <ejb-class>com.wombat.empl.EmployeeServiceBean</ejb-class><!-- ejb-class元素包含企业bean的具有完全的路经(具有完整的包名)的实现类    -->
+            <session-type>Stateful/Stateless</session-type><!-- session-type元素描述 stateful有状态,stateless无状态,其一.   -->
+            <transaction-type>Bean/Container</transaction-type><!-- transaction-type元素的值必须是Bean和Container中其一 -->
+            <env-entry><!--env-entry元素包含了企业bean的环境条目(environment entries)的声明,声明的内容包括可选的描述符,环境条目的名称,及可选的值-->
+                <description>A short description</description>
+                <env-entry-name>minAmount</env-entry-name><!--一个企业bean 的 environment entry的名称      -->
+                <!--env-entry-type元素包含了具有`完全限制的企业bean代码期望得到的Java类型值,别的合法的类型值:
+                    java.lang.Boolean, java.lang.String,java.lang.Integer,
+                    java.lang.Double, java.lang.Byte, java.lang.Short,java.lang.Long, java.lang.Float.-->
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>100.00</env-entry-value><!-- env-entry-value元素描述了一个企业bean的环境条目的值  -->
+            </env-entry>
+            <!-- ejb-ref元素描述对的别的企业bean的home接口的引用.描述由以下部分组成:可选的描述符,使用的引用(参照)的EJB的名称,
+            引用的企业bean的期望的类型及home和remote接口,可选的ejb-link 信息-指定引用的企业bean的标示   -->
+            <ejb-ref>
+                <description>A short description</description>
+                <ejb-ref-name>ejb/Payroll</ejb-ref-name><!--表示引用的企业bean的名称,EJB参照是企业bean环境中的一条条目,记住名称是以”ejb/”为前缀的     -->
+                <ejb-ref-type>Entity/Session</ejb-ref-type><!--引用的企业bean的类型,它的值必须是Entity和Session两者之一  -->
+                <home>com.aardvark.payroll.PayrollHome</home>
+                <remote>com.wombat.empl.EmployeeService</remote>
+                <!--链接到被引用的企业bean,它的值(有联系企业bean)必须在同一个ejb-jar文件中,
+                或者是在同一J2EE Application中的别的ejb-jar中(就是<ejb-name>元素定义的被引用的企业bean名称)  -->
+                <ejb-link>EmployeeRecord</ejb-link>
+            </ejb-ref>
+            <!--包含在企业bean中被引用的安全角色的声明,声明包括以下各项:可选的描述符,安全角色的名称,,
+            可选的到一个已经定义的安全角色的连接ole-name元素的值必须是个string,可以作为参数传给EJBContext.isCallerInRole(String roleName)方法,
+            role-link元素的值必须是在security-role元素中定义过的    -->
+            <security-role-ref>
+                <description>A short description</description>
+                <role-name>name</role-name><!--  角色的名字,名字要有意义          -->
+                <role-link>name</role-link><!--一个已经定义的安全角色的连接,role-link元素的值必须是在security-role元素中定义过的   -->
+            </security-role-ref>
+            <resource-ref><!--包含企业bean对外部资源引用的声明,描述,它以下各项组成:可选的描述符, 引用资源工厂名,资源工厂的类型定义,认证的类型(bean或者container)-->
+                <description>A short description</description><!--简短的描述         -->
+                <res-ref-name>name</res-ref-name><!--指定引用资源工厂名 -->
+                <res-type>javax.sql.DataSource</res-type><!--指定数据源的类型,而它就是要使用数据源的Java接口(或者类)所期望的    -->
+                <!--res-auth元素定义是由企业bean的代码作为资源管理器,还是由容器作为资源管理器.后一个选择,
+                发布者可以对容器提供支持,这个元素的值必须是Application和Container中的一个 -->
+                <res-auth>Application/Container</res-auth>
+            </resource-ref>
+        </session>
+        <!--entity元素描述entity bean的,这些描述性的声明有以下各项组成:可选的描述符,可选的显示名称,可选的小图标文件名,可选的大图标文件名,
+        在发布描述中指定企业bean的名称;entity bean的home和remote接口的名称,entity bean的实现类;
+        entity bean持久性管理的类型;主键类的名称; Entity Bean's reentrancy 的声明;
+        可选的容器管理的字段的列表;可选的指定的primary key的字段名;bean 环境条目的声明;bean参照的声明,安全角色参照的声明,资源工厂的参照声明(可选).等等;
+        如果entity持久管理类型是container的话,在描述中就可以将primarykey-field元素表示出来.至少有一个cmpfield元素,而bean管理的持久性,就不能有这些了.-->
+        <entity>
+            <description>A short description</description><!-- 一个简短的描述     -->
+            <display-name>A name</display-name><!--要显示的名称,这个名字可以被别的工具引用到      -->
+            <!--small-icon 元素包含小图标(16 x 16)的名字,这个名称是在ejb-jar文件的相对路经,文件必须是jpg或者是gif格式,文件名必须以.jpg.或者gif为后缀,图标可以被工具使用 -->
+            <small-icon>employee-service-icon16x16.jpg</small-icon>
+            <!--large-icon元素包含小图标(32 x 32)的名字,这个名称是在ejb-jar文件的相对路经,文件必须是jpg或者是gif格式,文件名必须以.jpg.或者gif为后缀,图标可以被工具使用  -->
+            <large-icon>employee-service-icon32x32.jpg</large-icon>
+            <!--ejb-name元素指明了企业bean的名称,它是由ejb-jar 文件的编写者命名的,这个名称在同一个ejb-jar文件中必须是唯一的,
+            企业bean的代码不依赖于它,与它隔离的,所以企业bean的名称可以在应用装配的过程中改变而不会影响企业bean的功能.
+            在发布描述器中的ejb-name与应用发布者即将分配给企业bean的home接口的JNDI的名称没有结构性的关系.名称必须定义的有意义   -->
+            <ejb-name>EmployeeService</ejb-name>
+            <home>com.aardvark.payroll.PayrollHome</home><!--home元素包含企业bean的具有完全的路经(具有完整的包名)的home接口  -->
+            <remote>com.wombat.empl.EmployeeService</remote><!--remote元素包含企业bean的具有完全的路经(具有完整的包名)的remote接口   -->
+            <ejb-class>com.wombat.empl.EmployeeServiceBean</ejb-class><!--ejb-class元素包含企业bean的具有完全的路经(具有完整的包名)的实现类 -->
+            <persistence-type>Bean/Container</persistence-type><!--persistence-type元素指定entity bean的持久性管理的类型,它必须是下面两个之一:Bean,Container -->
+            <!--prim-key-class元素指定了具有完全限定的entity bean的主键类的名称,如果主键类的定义依赖发布的时间, 主键类元素的值应该是java.lang.Object;   -->
+            <prim-key-class>com.wombat.empl.EmployeeID</prim-key-class>
+            <!--The reentrant element specifies whether an entity bean is reentrant or not.The reentrant element must be one of the two following: True or False     -->
+            <reentrant>True/False</reentrant>
+            <cmp-field><!-- cmp-field描述容器管理的字段.包括一个可选的字段描述,字段的名称.  -->
+                <description>A short description</description>
+                <field-name>firstName</field-name><!--field-name元素指定容器管理的字段的名,名称必须企业bean的公共字段或者是它的超类中的公共字段. -->
+            </cmp-field>
+            <!--primkey-field元素指定容器管理的Bean的主键字段.它必须是在cmp-field元素中声明过的,类型必须和主键类的一样,
+            如果主键映射为多个容器管理的字段(也就是说是一个复合主键),那么就地取材没必要条件使用这个元素了.
+            在这种情况下,主键类的字段必须是公共的,它们的名字必须与包含主键的entity bean的字段名相符合.  -->
+            <primkey-field>fieldName</primkey-field>
+            <env-entry><!--env-entry元素包含了企业bean的环境入口(environment entries)的声明,声明的内容包括可选的描述符,环境入口的名称,及可选的值  -->
+                <description>A short description</description><!--简短的描述 -->
+                <env-entry-name>minAmount</env-entry-name><!--一个企业bean 的 environment entry的名称   -->
+                <!--env-entry-type元素包含了具有`完全限制的企业bean代码期望得到的Java类型值,
+                别的合法的类型值:java.lang.Boolean, java.lang.String, java.lang.Integer,java.lang.Double,
+                java.lang.Byte, java.lang.Short,java.lang.Long, java.lang.Float. -->
+                <env-entry-type>java.lang.String</env-entry-type>
+                <!--env-entry-value元素描述了一个企业bean的环境入口的值  -->
+                <env-entry-value>100.00</env-entry-value>
+            </env-entry>
+            <!--ejb-ref元素描述对的别的企业bean的home接口的引用.描述由以下部分组成:可选的描述符,使用的引用(参照)的EJB的名称,
+            引用的企业bean的期望的类型及home和remote接口,可选的ejb-link 信息-指定与引用的企业bean有关系的bean,在ejb-jar 文件中典型的包含一个应用的组装. -->
+            <ejb-ref>
+                <description>A short description</description><!--简短的描述  -->
+                <ejb-ref-name>ejb/Payroll</ejb-ref-name><!--表示引用的企业bean的名称,EJB参照是企业bean环境中的一条条目,记住名称是以”ejb/”为前缀的-->
+                <ejb-ref-type>Entity/Session</ejb-ref-type><!--引用的企业bean的类型,它的值必须是Entity和Session两者之一  -->
+                <home>com.aardvark.payroll.PayrollHome</home><!--home元素包含被引用的企业bean的具有完全的路经(具有完整的包名)的home接口-->
+                <remote>com.wombat.empl.EmployeeService</remote><!--remote元素包含被引用的企业bean的具有完全的路经(具有完整的包名)的remote接口        -->
+                <!--链接到被引用的企业bean,它的值(有联系企业bean)必须在同一个ejb-jar文件中,
+                或者是在同一J2EE Application中的别的ejb-jar中(就是ejb-name元素定义的被引用的企业bean名称)     -->
+                <ejb-link>EmployeeRecord</ejb-link>
+            </ejb-ref>
+            <!--包含在企业bean中被引用的安全角色的声明,声明包括以下各项:可选的描述符,安全角色的名称,
+                可选的到一个已经定义的安全角色的连接ole-name元素的值必须是个string,可以作为参数传给EJBContext.isCallerInRole(String roleName)方法,
+                role-link元素的值必须是在security-role元素中定义过的 -->
+            <security-role-ref>
+                <description>A short description</description><!--简短的描述 -->
+                <role-name>name</role-name><!--角色的名字,名字要有意义-->
+                <role-link>name</role-link><!--一个已经定义的安全角色的连接,role-link元素的值必须是在security-role元素中定义过的 -->
+            </security-role-ref>
+            <resource-ref><!--包含企业bean对外部资源引用的声明,描述,它以下各项组成:可选的描述符, 引用资源工厂名,资源工厂的类型定义,认证的类型(bean或者container)  -->
+                <description>A short description</description><!--简短的描述 -->
+                <res-ref-name>name</res-ref-name><!--指定引用资源工厂名 -->
+                <res-type>javax.sql.DataSource</res-type><!--指定数据源的类型,而它就是要使用数据源的Java接口(或者类)所期望的   -->
+                <!--res-auth元素定义是由企业bean的代码作为资源管理器,还是由容器作为资源管理器.
+                后一个选择, 发布者可以对容器提供支持,这个元素的值必须是Application和Container中的一个 -->
+                <res-auth>Application/Container</res-auth>
+            </resource-ref>
+        </entity>
+    </enterprise-beans>
+    <!--assembly-descriptor元素包含了应用配置信息.应用的装配信息由以下部分组成:安全角色的定义,许可访问的方法的定义,
+    容器管理的事务属性的定义,所有的部分都是可选的,提供装配描述符在整个ejb-jar文件中也是可选的.  -->
+    <assembly-descriptor>
+        <security-role><!--提供安全角色的定义,定义的内容包括角色的描述,角色的名称     -->
+            <description>A short description</description><!--简短的描述     -->
+            <role-name>name</role-name><!-- 安全角色的名称,名称要有意义    -->
+        </security-role>
+        <!--指定企业bean的某个方法允许被哪个安全的角色访问,调用.这个元素由以下各项组成:可选的描述符,一个安全角色的名称列表,
+        一个方法元素列表;在这里使用的安全角色必须在security-role元素中定义过的,而方法必须是在企业bean的home/remote接口中定义过的 -->
+        <method-permission>
+            <description>A short description</description><!--简短的描述-->
+            <role-name>name</role-name><!--安全角色的名称,名称要有意义   -->
+            <method><!-- 1.<method>  -->
+                <ejb-name>EJBNAME</ejb-name>
+                <method-name>*</method-name>
+            </method><!--这种类型的定义将涉及到指定的企业bean的home及remote所有方法     -->
+            <method>
+                <ejb-name>EJBNAME</ejb-name>
+                <method-name>METHOD</method-name>
+            </method><!--这种定义涉及到特定的方法,如果bean有方法重载的话,那么这种定义就表示将涉及到所有的具有相同方法名的重载方法-->
+            <method>
+                <ejb-name>EJBNAME</ejb-name>
+                <method-name>METHOD</method-name>
+                <method-params>
+                    <method-param>PARAM-1</method-param>
+                    <method-param>PARAM-1</method-param>
+                    <method-param>PARAM-n</method-param>
+                </method-params>
+            </method><!--使用这种方法只指定了一个方法,根据参数的不同来选择,参数的值是带全路经的java类型,如果方法无参, method-params元素里不包含任何method-param元素        -->
+            <method>
+                <description>A short description</description><!--简短的描述     -->
+                <ejb-name>EmployeeService</ejb-name>
+                <!--method-intf 元素可以区分同时定义在home和remote接口中的方法,它的值必须是Home和Remote两者之一  -->
+                <method-intf>Home/Remote</method-intf>
+                <method-name>nameOfMethod</method-name><!--the enterprise bean's remote and home interfaces中定义的方法名称,如果它的值是’*’的话,表示所有的方法 -->
+                <method-params><!-- 包含一系列的方法参数的全路经JAVA类型名     -->
+                    <method-param>int[]</method-param><!--包含方法参数的全路经JAVA类型名    -->
+                </method-params>
+            </method>
+        </method-permission>
+        <!--container-transaction指定容器在企业bean方法论被调用的时候,是如何管理的事务领域的.
+        由以下各项组成:可选的描述符,一系列方法元素,事务属性.应用事务属性到所有被指定的方法中.        -->
+        <container-transaction>
+            <description>A short description</description>
+            <method>
+                <ejb-name>EJBNAME</ejb-name>
+                <method-name>*</method-name>
+            </method><!--这种类型的定义将涉及到指定的企业bean的home及remote所有方法   -->
+            <method>
+                <ejb-name>EJBNAME</ejb-name>
+                <method-name>METHOD</method-name>
+            </method><!--这种定义涉及到特定的方法,如果bean有方法重载的话,那么这种定义就表示将涉及到所有的具有相同方法名的重载方法-->
+            <method>
+                <ejb-name>EJBNAME</ejb-name>
+                <method-name>METHOD</method-name>
+                <method-params>
+                    <method-param>PARAM-1</method-param>
+                    <method-param>PARAM-1</method-param>
+                    <method-param>PARAM-n</method-param>
+                </method-params>
+            </method><!--使用这种方法只指定了一个方法,根据参数的不同来选择,参数的值是带全路经的java类型,如果方法无参, method-params元素里不包含任何method-param元素  -->
+            <method>
+                <description>A short description</description>
+                <ejb-name>EmployeeService</ejb-name>
+                <method-intf>Home/Remote</method-intf>
+                <method-name>nameOfMethod
+                </method-name><!--the enterprise bean's remote and home interfaces中定义的方法名称,如果它的值是’*’的话,表示所有的方法 -->
+                <method-params>
+                    <method-param>int[]</method-param><!--包含方法参数的全路经JAVA类型名-->
+                </method-params>
+            </method>
+            <!--trans-attribute元素指定了容器如何管理必须管理的事务界线,在一个企业bean的业务方法被调用的时候;
+            它的值必须是下面几中之一:  NotSupported, Supports, Required, RequiresNew,Mandatory or Never -->
+            <trans-attribute>Supports</trans-attribute>
+        </container-transaction>
+    </assembly-descriptor>
+    <!--可选的ejb-client-jar元素指定一个JAR文件,这个文件包含了一个客户端程序访问EJB-JAR文件中定义的企业Bean时所需要的类文件.
+    发布者使得EJB CLIENT JAR 文件对于客户端的类装载器来说变得容易访问了-->
+    <ejb-client-jar>employee_service_client.jar</ejb-client-jar>
+</ejb-jar>
+
+<!--
+事务属性控制事务的作用域。
+
+事务属性可以是如下几个值之一：
+
+Required,
+RequiresNew,
+Mandatory,
+NotSupported,
+Supports,
+Never.
+
+1、Required
+
+     如果客户端正运行在某个事务中运行，且调用了EJB中的方法，则该方法在客户端的事务中运行。如果客户端没有与某个事务相关联，则容器在运行方法前先启动一个新事务。
+
+     Required属性适合绝大多数事务，建议把它设置成默认的，至少在开发阶段。事务属性是声明式的，后期也可以很容易的修改。
+
+2、RequiresNew
+
+    如果客户端运行在某个事务中，并且调用了EJB中的方法，则容器将采用如下操作：
+
+   (1) 挂起客户端事务
+
+   (2) 启动一个新事务
+
+   (3) 把调用委派给方法
+
+   (4) 方法执行完毕之后，回复客户端事务
+
+    如果客户端没有与某个事务相关联，则容器在运行方法前先启动一个新事务。
+
+    如果确保方法始终在一个新事务中运行，应该使用RequiresNew属性。
+
+3、Mandatory
+
+     如果客户端运行在某个事务中且调用了EJB中的方法，则该方法运行在客户端事务中。
+
+     如果客户端没有与某个事务相关联，则容器抛出TransactionRequiredException。
+
+     如果EJB中的方法必须使用客户端的事务，则应该使用Mandatory属性。
+
+4、NotSupported
+
+     如果客户端在某个事务中运行且调用了EJB中的方法，则容器先挂起客户端事务，调用方法结束之后回复客户端事务。
+
+    如果客户端没有与某个事务相关联，则容器在运行方法前不启动事务
+
+    对于不需要事务的方法，可以考虑该属性。事务需要一定的开销，NotSupported属性可以提高性能。
+
+5、Supports
+
+     如果客户端运行在某个事务中且调用了EJB中的方法，则该方法运行在客户端的事务中。
+
+     如果客户端没有与某个事务关联，则容器运行方法前不启动新的事务。
+
+6、Never
+
+     如果客户端运行在某个事务中且调用了EJB中的方法，则容器抛出RemoteException异常。如果客户端没有与某个事务关联，则容器运行方法之前不启动新的事务。
+	 
+-->	 
