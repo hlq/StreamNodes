@@ -1,5 +1,5 @@
 ### Reactor模式
-![](.Reactor_images\5cfd350d.png)
+![](.Reactor_images/5cfd350d.png)
 
 **Reactor** (反应堆)模式首先是事件驱动的，有一个或多个并发输入源，有一个Service Handler，有多个Request Handlers；这个Service Handler会同步的将输入的请求（Event）多路复用的分发给相应的Request Handler。如果用图来表达：
 
