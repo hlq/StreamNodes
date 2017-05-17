@@ -1,4 +1,4 @@
-![](.NettyNode_images\eb4432ea.png)
+![](.NettyNode_images/eb4432ea.png)
 
 transport services 运算服务
 protocol support 协议支持
@@ -12,13 +12,13 @@ zero-copy-capable rich byte buffer 拷贝副本api
 ### 网络模型
 
 1. 这是最简单的单Reactor单线程模型。Reactor线程是个多面手，负责多路分离套接字，Accept新连接，并分派请求到处理器链中。该模型 适用于处理器链中业务处理组件能快速完成的场景。不过，这种单线程模型不能充分利用多核资源，所以实际使用的不多。  
-![](.NettyNode_images\04916c99.png)
+![](.NettyNode_images/04916c99.png)
 
 2. 相比上一种模型，该模型在处理器链部分采用了多线程（线程池），也是后端程序常用的模型。
-![](.NettyNode_images\83fe0f13.png)
+![](.NettyNode_images/83fe0f13.png)
 
 3. 第三种模型比起第二种模型，是将Reactor分成两部分，mainReactor负责监听server socket，accept新连接，并将建立的socket分派给subReactor。subReactor负责多路分离已连接的socket，读写网 络数据，对业务处理功能，其扔给worker线程池完成。通常，subReactor个数上可与CPU个数等同。
-![](.NettyNode_images\f5972beb.png)
+![](.NettyNode_images/f5972beb.png)
 
 说完Reacotr模型的三种形式，那么Netty是哪种呢？其实，我还有一种Reactor模型的变种没说，那就是去掉线程池的第三种形式的变种，这也 是Netty NIO的默认模式。在实现上，Netty中的Boss类充当mainReactor，NioWorker类充当subReactor（默认 NioWorker的个数是Runtime.getRuntime().availableProcessors()）。在处理新来的请求 时，NioWorker读完已收到的数据到ChannelBuffer中，之后触发ChannelPipeline中的ChannelHandler流。
 
@@ -28,7 +28,7 @@ Netty是事件驱动的，可以通过ChannelHandler链来控制执行流向。�
 
 
 ### buffer
-![](.NettyNode_images\29be4023.png)
+![](.NettyNode_images/29be4023.png)
 
 该包核心的接口是ChannelBuffer和ChannelBufferFactory,下面予以简要的介绍。
 
@@ -59,7 +59,7 @@ Netty对buffer的处理策略是：读 请求数据时，Netty首先读数据到
 
 ### Channel
 
-![](.NettyNode_images\ddad0678.png)
+![](.NettyNode_images/ddad0678.png)
 
 从该结构图也可以看到，Channel主要提供的功能如下：
 
@@ -73,7 +73,7 @@ Netty对buffer的处理策略是：读 请求数据时，Netty首先读数据到
 ### ChannelEvent
 Netty是事件驱动的，其通过ChannelEvent来确定事件流的方向。一个ChannelEvent是依附于Channel的 ChannelPipeline来处理，并由ChannelPipeline调用ChannelHandler来做具体的处理。
 
-![](.NettyNode_images\eb5f2741.png)
+![](.NettyNode_images/eb5f2741.png)
 
 对于使用者来说，在ChannelHandler实现类中会使用继承于ChannelEvent的MessageEvent，调用其 getMessage()方法来获得读到的ChannelBuffer或被转化的对象。
 
@@ -81,11 +81,11 @@ Netty是事件驱动的，其通过ChannelEvent来确定事件流的方向。一
 
 Netty 在事件处理上，是通过ChannelPipeline来控制事件流，通过调用注册其上的一系列ChannelHandler来处理事件，这也是典型的拦截 器模式。
 
-![](.NettyNode_images\bca5033c.png)
+![](.NettyNode_images/bca5033c.png)
 
 事件流有两种，upstream事件和downstream事件。在ChannelPipeline中，其可被注册的ChannelHandler既可以 是 ChannelUpstreamHandler 也可以是ChannelDownstreamHandler ，但事件在ChannelPipeline传递过程中只会调用匹配流的ChannelHandler。在事件流的过滤器链 中，ChannelUpstreamHandler或ChannelDownstreamHandler既可以终止流程，也可以通过调用 ChannelHandlerContext.sendUpstream(ChannelEvent)或 ChannelHandlerContext.sendDownstream(ChannelEvent)将事件传递下去。下面是事件流处理的图示：
 
-![](.NettyNode_images\9f2e8bba.png)
+![](.NettyNode_images/9f2e8bba.png)
 
 从上图可见，upstream event是被Upstream Handler们自底向上逐个处理，downstream event是被Downstream Handler们自顶向下逐个处理，这里的上下关系就是向ChannelPipeline里添加Handler的先后顺序关系。简单的理 解，upstream event是处理来自外部的请求的过程，而downstream event是处理向外发送请求的过程。
 

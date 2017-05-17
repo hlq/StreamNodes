@@ -6,7 +6,7 @@
 从结构上，这有点类似生产者消费者模式，即有一个或多个生产者将事件放入一个Queue中，而一个或多个消费者主动的从这个Queue中Poll事件来处理；而Reactor模式则并没有Queue来做缓冲，每当一个Event输入到Service Handler之后，该Service Handler会主动的根据不同的Event类型将其分发给对应的Request Handler来处理。
 
 ### Reactor模式结构
-![](.Reactor_images\d7f41e77.png)
+![](.Reactor_images/d7f41e77.png)
 
 **Handle**：(句柄, handler 处理器 处理者)即操作系统中的句柄，是对资源在操作系统层面上的一种抽象，它可以是打开的文件、一个连接(Socket)、Timer等。由于Reactor模式一般使用在网络编程中，因而这里一般指Socket Handle，即一个网络连接（Connection，在Java NIO中的Channel）。这个Channel注册到Synchronous Event Demultiplexer中，以监听Handle中发生的事件，对ServerSocketChannnel可以是CONNECT事件，对SocketChannel可以是READ、WRITE、CLOSE事件等。
 
@@ -19,7 +19,7 @@
 **Concrete Event Handler**(adj. 具体的,实在的,水泥的)：事件EventHandler接口，实现特定事件处理逻辑。
 
 ### Reactor模式模块之间的交互
-![](.Reactor_images\8145e0a9.png)
+![](.Reactor_images/8145e0a9.png)
 
 1.初始化InitiationDispatcher，并初始化一个Handle到EventHandler的Map。  
 2.注册EventHandler到InitiationDispatcher中，每个EventHandler包含对相应Handle的引用，从而建立Handle到EventHandler的映射（Map）。  

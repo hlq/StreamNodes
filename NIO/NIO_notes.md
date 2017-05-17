@@ -6,7 +6,7 @@
 ### Channel 和 Buffer
 基本上，所有的 IO 在NIO 中都从一个Channel 开始。Channel 有点象流。 数据可以从Channel读到Buffer中，也可以从Buffer 写到Channel中
 
-![](.NIO_notes_images\78ba1b85.png)
+![](.NIO_notes_images/78ba1b85.png)
 
 * FileChannel 从文件中读写数据
 * DatagramChannel 能通过UDP读写网络中的数据
@@ -31,7 +31,7 @@ double 和 char, Java NIO 还有个 MappedByteBuffer，用于表示内存映射�
 
 ### Selector
 Selector允许单线程处理多个 Channel。如果你的应用打开了多个连接（通道），但每个连接的流量都很低，使用Selector就会很方便。例如，在一个聊天服务器中。
-![](.NIO_notes_images\d0a5a3eb.png)
+![](.NIO_notes_images/d0a5a3eb.png)
 
 要使用Selector，得向Selector注册Channel，然后调用它的select()方法。这个方法会一直阻塞到某个注册的通道有事件就绪。一旦这个方法返回，线程就可以处理这些事件，事件的例子有如新连接进来，数据接收等。
 
@@ -92,7 +92,7 @@ aFile.close();
 **capacity,position和limit**
 缓冲区本质上是一块可以写入数据，然后可以从中读取数据的内存。这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。
 
-![](.NIO_notes_images\285885fd.png)
+![](.NIO_notes_images/285885fd.png)
 
 #### capacity
 
@@ -237,7 +237,7 @@ ByteBuffer body   = ByteBuffer.allocate(1024);
 ByteBuffer[] bufferArray = { header, body };
 channel.read(bufferArray);
 ```
-![](.NIO_notes_images\44343de4.png)
+![](.NIO_notes_images/44343de4.png)
 
 ```
 ByteBuffer header = ByteBuffer.allocate(128);
@@ -245,7 +245,7 @@ ByteBuffer body   = ByteBuffer.allocate(1024);
 ByteBuffer[] bufferArray = { header, body };
 channel.write(bufferArray);
 ```
-![](.NIO_notes_images\3f6db356.png)
+![](.NIO_notes_images/3f6db356.png)
 
 ### transferTo
 指定原通道传递到对应通道包括起电和大小
@@ -373,7 +373,7 @@ int bytesWritten = channel.write(but);
 Java NIO 管道是2个线程之间的单向数据连接。
 Pipe有一个source通道和一个sink通道。数据会被写到sink通道，从source通道读取
 
-![](.NIO_notes_images\93d2ba63.png)
+![](.NIO_notes_images/93d2ba63.png)
 
 ```
 
@@ -403,10 +403,10 @@ int bytesRead = sourceChannel.read(buf);
 | 无      | 选择器 | Java NIO的选择器允许一个单独的线程来监视多个输入通道，你可以注册多个通道使用一个选择器，然后使用一个单独的线程来“选择”通道：这些通道里已经有可以处理的输入，或者选择已准备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。|
 
 
-![](.NIO_notes_images\b377e6b8.png)
+![](.NIO_notes_images/b377e6b8.png)
 
-![](.NIO_notes_images\1701aa04.png)
+![](.NIO_notes_images/1701aa04.png)
 
-![](.NIO_notes_images\2033477e.png)
+![](.NIO_notes_images/2033477e.png)
 
-![](.NIO_notes_images\b0183378.png)
+![](.NIO_notes_images/b0183378.png)
